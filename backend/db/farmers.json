@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 1775423201960,
+    "name": "John",
+    "location": "Dublin"
+  },
+  {
+    "id": 1775423270883,
+    "name": "Annie",
+    "location": "Dublin"
+  }
+]
