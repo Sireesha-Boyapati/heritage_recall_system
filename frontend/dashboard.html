@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+        }
+
+        .card {
+            display: inline-block;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            width: 432px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .total {
+            background-color: #ddd;
+        }
+
+        .safe {
+            background-color: #cbffcb;
+        }
+
+        .blocked {
+            background-color: #f9c8c8;
+        }
+
+
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            /*  header left, buttons right */
+            align-items: center;
+            /* vertically centers them */
+            margin-bottom: 2px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body onload="loadDashboard()">
+
+    <div class="header-container">
+        <h2>Milk Recall Dashboard</h2>
+        <div>
+            <button onclick="goToBatches()">Go to Batches</button>
+            <button onclick="addBatch()">Add Batch</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div>
+        <div class="card total">
+            Total<br>
+            <span id="totalCount">0</span>
+        </div>
+
+        <div class="card safe">
+            Safe <br>
+            <span id="safeCount">0</span>
+        </div>
+
+        <div class="card blocked">
+            Blocked<br>
+            <span id="blockedCount">0</span>
+        </div>
+    </div>
+
+
+
+    <h3>Recent Batches</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Batch ID</th>
+                <th>Collection IDs</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="recentTable"></tbody>
+    </table>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
