@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Batche</title>
+    <style>
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<BODY onload="loadBatchesPage()">
+    <button class="back-btn" onclick="goDashboard()">Back</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Collections</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="batchTable"></tbody>
+    </table>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</BODY>
+
+</html>

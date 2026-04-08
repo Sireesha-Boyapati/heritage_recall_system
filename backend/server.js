@@ -49,7 +49,7 @@ app.post("/batches", (req, res) => {
   const newBatch = {
     id: Date.now(),
     collections: req.body.collections || [],
-    status: "OK"
+    status: "SAFE"
   };
 
   batches.push(newBatch);
@@ -67,7 +67,7 @@ app.put("/batches/recall/:id", (req, res) => {
 
   batches = batches.map(batch => {
     if (batch.id === id) {
-      return { ...batch, status: "BLOCKED" };
+      return { ...batch, status: "RECALLED" };
     }
     return batch;
   });
