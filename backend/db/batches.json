@@ -31,5 +31,52 @@
       2
     ],
     "status": "SAFE"
+  },
+  {
+    "batchID": 5,
+    "collections": [
+      1,
+      2,
+      3
+    ],
+    "status": "SAFE"
+  },
+  {
+    "batchID": 6,
+    "collections": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "status": "SAFE"
+  },
+  {
+    "batchID": 7,
+    "collections": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "status": "SAFE"
+  },
+  {
+    "batchID": 8,
+    "collections": [
+      1,
+      2,
+      3
+    ],
+    "status": "SAFE"
+  },
+  {
+    "batchID": 9,
+    "collections": [
+      4,
+      5,
+      6
+    ],
+    "status": "SAFE"
   }
 ]

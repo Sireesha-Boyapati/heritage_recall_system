@@ -19,5 +19,40 @@
     "quantity": 60,
     "date": "2026-04-08",
     "status": "SAFE"
+  },
+  {
+    "collectionID": 4,
+    "farmerId": 101,
+    "quantity": 50,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  },
+  {
+    "collectionID": 5,
+    "farmerId": 102,
+    "quantity": 40,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  },
+  {
+    "collectionID": 6,
+    "farmerId": 103,
+    "quantity": 60,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  },
+  {
+    "collectionID": 7,
+    "farmerId": 1775423201960,
+    "quantity": 30,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  },
+  {
+    "collectionID": 8,
+    "farmerId": 1775423270883,
+    "quantity": 60,
+    "date": "2026-04-09",
+    "status": "SAFE"
   }
 ]

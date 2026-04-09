@@ -6,7 +6,7 @@ function loadDashboard() {
   fetch(`${API_URL}/batches`)
     .then((res) => res.json())
     .then((data) => {
-      // ---- STATS ----
+    
       const total = data.length;
       const Recalled = data.filter((b) => b.status === "RECALLED").length;
       const safe = total - Recalled;
@@ -15,7 +15,6 @@ function loadDashboard() {
       document.getElementById("safeCount").innerText = safe;
       document.getElementById("recalledCount").innerText = Recalled;
 
-      // ---- RECENT 10 ----
       const recent = data.slice(-10).reverse();
 
       const table = document.getElementById("recentTable");
@@ -48,7 +47,6 @@ function goToBatches() {
 }
 
 function addBatch() {
-    // addCollection
   window.location.href = "addBatch.html";
 }
 
@@ -104,30 +102,6 @@ function goDashboard() {
   window.location.href = "dashboard.html";
 }
 
-function createBatch() {
-  const input = document.getElementById("collectionsInput").value;
-
-  if (!input) {
-    alert("Please enter collection IDs");
-    return;
-  }
-
-  const collections = input.split(",").map(num => parseInt(num.trim()));
-
-  fetch("http://localhost:3000/batches", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ collections: collections })
-  })
-    .then(res => res.json())
-    .then(data => {
-      alert("Batch Created Successfully!");
-      window.location.href = "dashboard.html";
-    });
-}
-
 function createCollection() {
   const farmerId = document.getElementById("farmerId").value;
   const quantity = document.getElementById("quantity").value;
@@ -158,8 +132,8 @@ function loadCollectionsForBatch() {
 
       data.forEach(c => {
         container.innerHTML += `
-          <input type="checkbox" value="${c.id}">
-          Collection ${c.id} (Farmer ${c.farmerId}, Qty ${c.quantity})
+          <input type="checkbox" value="${c.collectionID }">
+          Collection ${c.collectionID } (Farmer ${c.farmerId}, Qty ${c.quantity})
           <br>
         `;
       });
@@ -192,19 +166,34 @@ function createBatch() {
     .then(res => res.json())
     .then(() => {
       alert("Batch created!");
-      window.location.href = "dashboard.html";
+
+      //  RELOAD COLLECTIONS 
+      loadCollections();
     });
 }
 
+
 async function loadCollections() {
-  const res = await fetch("http://localhost:3000/collections");
-  const data = await res.json();
+
+  const colRes = await fetch("http://localhost:3000/collections");
+  const collections = await colRes.json();
+
+  const farmerRes = await fetch("http://localhost:3000/farmers");
+  const farmers = await farmerRes.json();
+
+  const farmerMap = {};
+
+  farmers.forEach(f => {
+    farmerMap[f.id] = f.name;
+  });
 
   const container = document.getElementById("collections");
   container.innerHTML = "";
 
-  data.forEach(col => {
+  collections.forEach(col => {
     const row = document.createElement("tr");
+
+    const farmerName = farmerMap[col.farmerId] || "Unknown";
 
     row.innerHTML = `
       <td>
@@ -212,6 +201,7 @@ async function loadCollections() {
       </td>
       <td>${col.collectionID}</td>
       <td>${col.farmerId}</td>
+      <td>${farmerName}</td>
       <td>${col.quantity}</td>
     `;
 
@@ -221,4 +211,100 @@ async function loadCollections() {
 
 function navToDashboard() {
   window.location.href = "dashboard.html";
+}
+
+function addBatch() {
+  window.location.href = "addBatch.html";
+}
+
+// used to set collectionID and load farmers details into the create collection form 
+function addCollection() {
+  loadFarmers();
+  setCollectionID();
+}
+
+// load and displays the farmer name and location based on id
+function loadFarmers() {
+  fetch("http://localhost:3000/farmers")
+    .then(res => res.json())
+    .then(data => {
+      const dropdown = document.getElementById("farmerId");
+
+      dropdown.innerHTML = `<option value="">Select Farmer</option>`;
+
+      data.forEach(farmer => {
+        const option = document.createElement("option");
+        option.value = farmer.id;
+        option.textContent = `${farmer.name} (ID: ${farmer.id})`;
+        option.setAttribute("data-name", farmer.name);
+
+        dropdown.appendChild(option);
+      });
+    });
+}
+
+function onFarmerChange() {
+  const dropdown = document.getElementById("farmerId");
+  const selectedOption = dropdown.options[dropdown.selectedIndex];
+
+  const farmerName = selectedOption.getAttribute("data-name");
+
+  document.getElementById("farmerName").value = farmerName || "";
+}
+
+// displays the collections id
+function setCollectionID() {
+  fetch("http://localhost:3000/collections")
+    .then(res => res.json())
+    .then(data => {
+
+      let nextID = 1;
+
+      if (data.length > 0) {
+        nextID = data[data.length - 1].collectionID + 1;
+      }
+
+      document.getElementById("collectionID").value = nextID;
+    });
+}
+
+function submitCollection(e) {
+  e.preventDefault();
+
+  const farmerId = document.getElementById("farmerId").value;
+  const quantity = document.getElementById("quantity").value;
+  const date = document.getElementById("date").value;
+
+  if (!farmerId) {
+    alert("Please select a farmer");
+    return;
+  }
+
+  if (quantity === "" || quantity < 0) {
+    alert("Quantity cannot be empty or negative!");
+    return;
+  }
+
+  fetch("http://localhost:3000/collections", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      farmerId: parseInt(farmerId),
+      quantity: parseFloat(quantity),
+      date: date
+    })
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("Collection added!");
+
+      setCollectionID();
+
+      document.getElementById("quantity").value = "";
+      document.getElementById("date").value = "";
+      document.getElementById("farmerName").value = "";
+      document.getElementById("farmerId").value = "";
+    });
 }

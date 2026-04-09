@@ -8,7 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// file paths (your JSON "database")
 const FARMERS_FILE = "./backend/db/farmers.json";
 const BATCHES_FILE = "./backend/db/batches.json";
 const COLLECTIONS_FILE = "./backend/db/collections.json";
@@ -43,17 +42,15 @@ app.get("/batches", (req, res) => {
 });
 
 app.post("/batches", (req, res) => {
-  const data = fs.readFileSync(BATCHES_FILE);
-  const batches = JSON.parse(data);
+  const batches = JSON.parse(fs.readFileSync(BATCHES_FILE));
+  const collections = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
 
   const collectionIds = req.body.collections || [];
 
+  // Generate batch ID
   const lastBatch = batches[batches.length - 1];
-
   const newBatchID =
-    (lastBatch?.batchID ??
-     lastBatch?.id ??
-     0) + 1;
+    (lastBatch?.batchID ?? lastBatch?.id ?? 0) + 1;
 
   const newBatch = {
     batchID: newBatchID,
@@ -61,9 +58,19 @@ app.post("/batches", (req, res) => {
     status: "SAFE"
   };
 
+  // MARK SELECTED COLLECTIONS AS USED
+  const updatedCollections = collections.map(col => {
+    if (collectionIds.includes(col.collectionID)) {
+      return { ...col, status: "USED" };
+    }
+    return col;
+  });
+
+  // Save both files
   batches.push(newBatch);
 
   fs.writeFileSync(BATCHES_FILE, JSON.stringify(batches, null, 2));
+  fs.writeFileSync(COLLECTIONS_FILE, JSON.stringify(updatedCollections, null, 2));
 
   res.json(newBatch);
 });
@@ -114,6 +121,9 @@ app.post("/collections", (req, res) => {
 });
 
 app.get("/collections", (req, res) => {
-  const data = fs.readFileSync(COLLECTIONS_FILE);
-  res.json(JSON.parse(data));
+  const data = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
+
+  const available = data.filter(col => col.status === "SAFE");
+
+  res.json(available);
 });

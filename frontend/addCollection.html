@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Collection</title>
+    <style>
+        .btn {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body  onload="addCollection()">
+
+    <button class="btn" onclick="addBatch()">Back</button>
+    <div style="border: 0.2px solid black; width:350px; padding: 30px; text-align: center; margin: 10% auto; font-size: large;">
+    <h2>Add Milk Collection</h2><br>
+
+    <form onsubmit="submitCollection(event)">
+
+        <label>Collection ID</label>
+        <input id="collectionID" readonly />
+        <br><br>
+
+        <label>Farmer</label>
+        <select id="farmerId" onchange="onFarmerChange()" required>
+            <option value="">Select Farmer</option>
+        </select>
+        <br><br>
+
+        <label>Farmer Name</label>
+        <input id="farmerName" type="text" readonly />
+        <br><br>
+
+        <label>Quantity (Litres)</label>
+        <input id="quantity" type="number" min="0" required />
+        <br><br>
+
+        <label>Date</label>
+        <input id="date" type="date" required />
+        <br><br> <br>
+
+        <button type="submit">Create</button>
+       
+    </form>
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
