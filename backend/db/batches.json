@@ -1,28 +1,34 @@
 [
   {
-    "id": 1775423359682,
+    "batchID": 1,
+    "collections": [
+      1,
+      2
+    ],
+    "status": "RECALLED"
+  },
+  {
+    "batchID": 2,
+    "collections": [
+      1,
+      3
+    ],
+    "status": "SAFE"
+  },
+  {
+    "batchID": 3,
     "collections": [
       1,
       2,
       3
     ],
-    "status": "RECALLED"
-  },
-  {
-    "id": 1775423359683,
-    "collections": [
-      4,
-      5,
-      6
-    ],
     "status": "SAFE"
   },
   {
-    "id": 1775423359684,
+    "batchID": 4,
     "collections": [
-      7,
-      8,
-      9
+      1,
+      2
     ],
     "status": "SAFE"
   }

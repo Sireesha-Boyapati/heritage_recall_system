@@ -1,0 +1,23 @@
+[
+  {
+    "collectionID": 1,
+    "farmerId": 101,
+    "quantity": 50,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  },
+  {
+    "collectionID": 2,
+    "farmerId": 102,
+    "quantity": 40,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  },
+  {
+    "collectionID": 3,
+    "farmerId": 103,
+    "quantity": 60,
+    "date": "2026-04-08",
+    "status": "SAFE"
+  }
+]

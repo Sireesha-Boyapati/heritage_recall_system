@@ -11,6 +11,7 @@ app.use(express.json());
 // file paths (your JSON "database")
 const FARMERS_FILE = "./backend/db/farmers.json";
 const BATCHES_FILE = "./backend/db/batches.json";
+const COLLECTIONS_FILE = "./backend/db/collections.json";
 
 console.log("Server is starting...");
 
@@ -26,7 +27,7 @@ app.post("/farmers", (req, res) => {
   const newFarmer = {
     id: Date.now(),
     name: req.body.name,
-    location: req.body.location
+    location: req.body.location,
   };
 
   farmers.push(newFarmer);
@@ -41,14 +42,22 @@ app.get("/batches", (req, res) => {
   res.json(JSON.parse(data));
 });
 
-
 app.post("/batches", (req, res) => {
   const data = fs.readFileSync(BATCHES_FILE);
   const batches = JSON.parse(data);
 
+  const collectionIds = req.body.collections || [];
+
+  const lastBatch = batches[batches.length - 1];
+
+  const newBatchID =
+    (lastBatch?.batchID ??
+     lastBatch?.id ??
+     0) + 1;
+
   const newBatch = {
-    id: Date.now(),
-    collections: req.body.collections || [],
+    batchID: newBatchID,
+    collections: collectionIds,
     status: "SAFE"
   };
 
@@ -65,8 +74,8 @@ app.put("/batches/recall/:id", (req, res) => {
 
   const id = parseInt(req.params.id);
 
-  batches = batches.map(batch => {
-    if (batch.id === id) {
+  batches = batches.map((batch) => {
+    if (batch.batchID === id) {
       return { ...batch, status: "RECALLED" };
     }
     return batch;
@@ -81,3 +90,30 @@ app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
 
+app.post("/collections", (req, res) => {
+  const data = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
+
+  const newId =
+    data.length > 0
+      ? data[data.length - 1].collectionID + 1
+      : 1;
+
+  const newCollection = {
+    collectionID: newId,
+    farmerId: req.body.farmerId,
+    quantity: req.body.quantity,
+    date: req.body.date,
+    status: "SAFE"
+  };
+
+  data.push(newCollection);
+
+  fs.writeFileSync(COLLECTIONS_FILE, JSON.stringify(data, null, 2));
+
+  res.json(newCollection);
+});
+
+app.get("/collections", (req, res) => {
+  const data = fs.readFileSync(COLLECTIONS_FILE);
+  res.json(JSON.parse(data));
+});

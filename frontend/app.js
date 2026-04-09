@@ -29,7 +29,7 @@ function loadDashboard() {
         }
 
         row.innerHTML = `
-          <td>${batch.id}</td>
+          <td>${batch.batchID}</td>
           <td>${batch.collections.join(", ")}</td>
           <td>${batch.status === "RECALLED"
               ? '<span class="badge recalled-badge">Recalled</span>'
@@ -48,7 +48,8 @@ function goToBatches() {
 }
 
 function addBatch() {
-  alert("We will add batch form next");
+    // addCollection
+  window.location.href = "addBatch.html";
 }
 
 function logout() {
@@ -74,10 +75,10 @@ function loadBatchesPage() {
         const recallButton =
           batch.status === "RECALLED"
             ? "Already Recalled"
-            : `<button class="recall-btn" onclick="recallBatch(${batch.id})">Recall</button>`;
+            : `<button class="recall-btn" onclick="recallBatch(${batch.batchID})">Recall</button>`;
 
         row.innerHTML = `
-          <td>${batch.id}</td>
+          <td>${batch.batchID}</td>
           <td>${batch.collections.join(", ")}</td>
           <td>${statusBadge}</td>
           <td>${recallButton}</td>
@@ -100,5 +101,124 @@ function recallBatch(id) {
 }
 
 function goDashboard() {
+  window.location.href = "dashboard.html";
+}
+
+function createBatch() {
+  const input = document.getElementById("collectionsInput").value;
+
+  if (!input) {
+    alert("Please enter collection IDs");
+    return;
+  }
+
+  const collections = input.split(",").map(num => parseInt(num.trim()));
+
+  fetch("http://localhost:3000/batches", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ collections: collections })
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert("Batch Created Successfully!");
+      window.location.href = "dashboard.html";
+    });
+}
+
+function createCollection() {
+  const farmerId = document.getElementById("farmerId").value;
+  const quantity = document.getElementById("quantity").value;
+  const date = document.getElementById("date").value;
+
+  fetch("http://localhost:3000/collections", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      farmerId: parseInt(farmerId),
+      quantity: parseInt(quantity),
+      date: date
+    })
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("Collection added!");
+    });
+}
+
+function loadCollectionsForBatch() {
+  fetch("http://localhost:3000/collections")
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById("collectionList");
+
+      data.forEach(c => {
+        container.innerHTML += `
+          <input type="checkbox" value="${c.id}">
+          Collection ${c.id} (Farmer ${c.farmerId}, Qty ${c.quantity})
+          <br>
+        `;
+      });
+    });
+}
+
+function createBatch() {
+  const checkboxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+  const selected = [];
+
+  checkboxes.forEach(cb => {
+    selected.push(parseInt(cb.value));
+  });
+
+  if (selected.length === 0) {
+    alert("Select at least one collection");
+    return;
+  }
+
+  fetch("http://localhost:3000/batches", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      collections: selected
+    })
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("Batch created!");
+      window.location.href = "dashboard.html";
+    });
+}
+
+async function loadCollections() {
+  const res = await fetch("http://localhost:3000/collections");
+  const data = await res.json();
+
+  const container = document.getElementById("collections");
+  container.innerHTML = "";
+
+  data.forEach(col => {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>
+        <input type="checkbox" value="${col.collectionID}">
+      </td>
+      <td>${col.collectionID}</td>
+      <td>${col.farmerId}</td>
+      <td>${col.quantity}</td>
+    `;
+
+    container.appendChild(row);
+  });
+}
+
+function navToDashboard() {
   window.location.href = "dashboard.html";
 }

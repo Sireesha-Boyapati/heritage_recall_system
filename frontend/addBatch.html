@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create Batch</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            /*  header left, buttons right */
+            align-items: center;
+            /* vertically centers them */
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+
+<body onload="loadCollections()">
+
+    <div class="header-container">
+    <h2>Select Milk Collections</h2>
+    <button onclick="window.location.href='addCollection.html'">
+        Add Collection
+    </button>
+
+    </div>
+
+    <!-- <div id="collections"></div> -->
+    <table>
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Collection ID</th>
+                <th>Farmer ID</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="collections"></tbody>
+    </table><br>
+
+    <button onclick="createBatch()">
+        Create Batch
+    </button>
+    <button onclick="navToDashboard()">
+        Back 
+    </button>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
