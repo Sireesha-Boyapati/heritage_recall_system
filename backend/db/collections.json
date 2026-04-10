@@ -4,55 +4,104 @@
     "farmerId": 101,
     "quantity": 50,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 2,
     "farmerId": 102,
     "quantity": 40,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 3,
     "farmerId": 103,
     "quantity": 60,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 4,
     "farmerId": 101,
     "quantity": 50,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 5,
     "farmerId": 102,
     "quantity": 40,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 6,
     "farmerId": 103,
     "quantity": 60,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 7,
     "farmerId": 1775423201960,
     "quantity": 30,
     "date": "2026-04-08",
-    "status": "SAFE"
+    "status": "USED"
   },
   {
     "collectionID": 8,
     "farmerId": 1775423270883,
     "quantity": 60,
     "date": "2026-04-09",
-    "status": "SAFE"
+    "status": "USED"
+  },
+  {
+    "collectionID": 9,
+    "farmerId": 1775423201960,
+    "quantity": 12,
+    "date": "2026-04-10",
+    "status": "USED"
+  },
+  {
+    "collectionID": 10,
+    "farmerId": 1775423201960,
+    "quantity": 89,
+    "date": "2026-04-10",
+    "status": "USED"
+  },
+  {
+    "collectionID": 11,
+    "farmerId": 1775423201960,
+    "quantity": 98,
+    "date": "2026-04-10",
+    "status": "USED"
+  },
+  {
+    "collectionID": 12,
+    "farmerId": 1775423201960,
+    "quantity": 54,
+    "date": "2026-04-10",
+    "status": "USED"
+  },
+  {
+    "collectionID": 13,
+    "farmerId": 1775423201960,
+    "quantity": 75,
+    "date": "2026-04-09",
+    "status": "USED"
+  },
+  {
+    "collectionID": 14,
+    "farmerId": 1775423270883,
+    "quantity": 76,
+    "date": "2026-04-10",
+    "status": "USED"
+  },
+  {
+    "collectionID": 15,
+    "farmerId": 1775423201960,
+    "quantity": 43,
+    "date": "2026-04-10",
+    "status": "USED"
   }
 ]

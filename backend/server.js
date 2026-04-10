@@ -23,8 +23,10 @@ app.post("/farmers", (req, res) => {
   const data = fs.readFileSync(FARMERS_FILE);
   const farmers = JSON.parse(data);
 
+  const newId = farmers.length > 0 ? farmers[farmers.length - 1].id + 1 : 1;
+
   const newFarmer = {
-    id: Date.now(),
+    id: newId,
     name: req.body.name,
     location: req.body.location,
   };
@@ -49,17 +51,16 @@ app.post("/batches", (req, res) => {
 
   // Generate batch ID
   const lastBatch = batches[batches.length - 1];
-  const newBatchID =
-    (lastBatch?.batchID ?? lastBatch?.id ?? 0) + 1;
+  const newBatchID = (lastBatch?.batchID ?? lastBatch?.id ?? 0) + 1;
 
   const newBatch = {
     batchID: newBatchID,
     collections: collectionIds,
-    status: "SAFE"
+    status: "SAFE",
   };
 
   // MARK SELECTED COLLECTIONS AS USED
-  const updatedCollections = collections.map(col => {
+  const updatedCollections = collections.map((col) => {
     if (collectionIds.includes(col.collectionID)) {
       return { ...col, status: "USED" };
     }
@@ -70,7 +71,10 @@ app.post("/batches", (req, res) => {
   batches.push(newBatch);
 
   fs.writeFileSync(BATCHES_FILE, JSON.stringify(batches, null, 2));
-  fs.writeFileSync(COLLECTIONS_FILE, JSON.stringify(updatedCollections, null, 2));
+  fs.writeFileSync(
+    COLLECTIONS_FILE,
+    JSON.stringify(updatedCollections, null, 2),
+  );
 
   res.json(newBatch);
 });
@@ -100,17 +104,14 @@ app.listen(3000, () => {
 app.post("/collections", (req, res) => {
   const data = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
 
-  const newId =
-    data.length > 0
-      ? data[data.length - 1].collectionID + 1
-      : 1;
+  const newId = data.length > 0 ? data[data.length - 1].collectionID + 1 : 1;
 
   const newCollection = {
     collectionID: newId,
     farmerId: req.body.farmerId,
     quantity: req.body.quantity,
     date: req.body.date,
-    status: "SAFE"
+    status: "SAFE",
   };
 
   data.push(newCollection);
@@ -123,7 +124,12 @@ app.post("/collections", (req, res) => {
 app.get("/collections", (req, res) => {
   const data = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
 
-  const available = data.filter(col => col.status === "SAFE");
+  const available = data.filter((col) => col.status === "SAFE");
 
   res.json(available);
+});
+
+app.get("/collections/all", (req, res) => {
+  const data = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
+  res.json(data);
 });

@@ -254,14 +254,15 @@ function onFarmerChange() {
 
 // displays the collections id
 function setCollectionID() {
-  fetch("http://localhost:3000/collections")
-    .then(res => res.json())
-    .then(data => {
-
+  console.log("setCollectionID called");
+  fetch("http://localhost:3000/collections/all")
+    .then((res) => res.json())
+    .then((data) => {
       let nextID = 1;
 
       if (data.length > 0) {
-        nextID = data[data.length - 1].collectionID + 1;
+        const maxId = Math.max(...data.map(c => c.collectionID));
+        nextID = maxId + 1;
       }
 
       document.getElementById("collectionID").value = nextID;
