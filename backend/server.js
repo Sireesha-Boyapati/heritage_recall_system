@@ -133,3 +133,16 @@ app.get("/collections/all", (req, res) => {
   const data = JSON.parse(fs.readFileSync(COLLECTIONS_FILE));
   res.json(data);
 });
+
+app.delete("/batches/:id", (req, res) => {
+  let batches = JSON.parse(fs.readFileSync(BATCHES_FILE));
+
+  const id = parseInt(req.params.id);
+
+  // remove the batch
+  const updatedBatches = batches.filter(b => b.batchID !== id);
+
+  fs.writeFileSync(BATCHES_FILE, JSON.stringify(updatedBatches, null, 2));
+
+  res.json({ message: "Batch deleted successfully" });
+});

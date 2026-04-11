@@ -25,14 +25,6 @@
     "status": "RECALLED"
   },
   {
-    "batchID": 4,
-    "collections": [
-      1,
-      2
-    ],
-    "status": "SAFE"
-  },
-  {
     "batchID": 5,
     "collections": [
       1,
@@ -113,14 +105,6 @@
     "batchID": 13,
     "collections": [
       13
-    ],
-    "status": "SAFE"
-  },
-  {
-    "batchID": 14,
-    "collections": [
-      14,
-      15
     ],
     "status": "SAFE"
   }

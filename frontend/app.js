@@ -6,7 +6,6 @@ function loadDashboard() {
   fetch(`${API_URL}/batches`)
     .then((res) => res.json())
     .then((data) => {
-    
       const total = data.length;
       const Recalled = data.filter((b) => b.status === "RECALLED").length;
       const safe = total - Recalled;
@@ -30,9 +29,11 @@ function loadDashboard() {
         row.innerHTML = `
           <td>${batch.batchID}</td>
           <td>${batch.collections.join(", ")}</td>
-          <td>${batch.status === "RECALLED"
+          <td>${
+            batch.status === "RECALLED"
               ? '<span class="badge recalled-badge">Recalled</span>'
-              : '<span class="badge safe-badge">Safe</span>'}
+              : '<span class="badge safe-badge">Safe</span>'
+          }
           </td>
         `;
 
@@ -70,16 +71,23 @@ function loadBatchesPage() {
             ? '<span class="badge recalled">Recalled</span>'
             : '<span class="badge safe">Safe</span>';
 
-        const recallButton =
-          batch.status === "RECALLED"
-            ? "Already Recalled"
-            : `<button class="recall-btn" onclick="recallBatch(${batch.batchID})">Recall</button>`;
+        let actions = "";
 
+        if (batch.status !== "RECALLED") {
+          actions = `
+            <button onclick="recallBatch(${batch.batchID})">Recall</button>
+            <button onclick="deleteBatch(${batch.batchID})" class="delete-btn">🗑</button>
+          `;
+        } else {
+          actions = " Already Recalled";
+        }
+
+        // Build row ONCE
         row.innerHTML = `
           <td>${batch.batchID}</td>
           <td>${batch.collections.join(", ")}</td>
           <td>${statusBadge}</td>
-          <td>${recallButton}</td>
+          <td class="action-cell">${actions}</td>
         `;
 
         table.appendChild(row);
@@ -87,11 +95,12 @@ function loadBatchesPage() {
     });
 }
 
+
 function recallBatch(id) {
   fetch(`http://localhost:3000/batches/recall/${id}`, {
-    method: "PUT"
+    method: "PUT",
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(() => {
       alert("Batch Recalled!");
       loadBatchesPage(); // refresh table
@@ -110,15 +119,15 @@ function createCollection() {
   fetch("http://localhost:3000/collections", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       farmerId: parseInt(farmerId),
       quantity: parseInt(quantity),
-      date: date
-    })
+      date: date,
+    }),
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(() => {
       alert("Collection added!");
     });
@@ -126,14 +135,14 @@ function createCollection() {
 
 function loadCollectionsForBatch() {
   fetch("http://localhost:3000/collections")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       const container = document.getElementById("collectionList");
 
-      data.forEach(c => {
+      data.forEach((c) => {
         container.innerHTML += `
-          <input type="checkbox" value="${c.collectionID }">
-          Collection ${c.collectionID } (Farmer ${c.farmerId}, Qty ${c.quantity})
+          <input type="checkbox" value="${c.collectionID}">
+          Collection ${c.collectionID} (Farmer ${c.farmerId}, Qty ${c.quantity})
           <br>
         `;
       });
@@ -145,7 +154,7 @@ function createBatch() {
 
   const selected = [];
 
-  checkboxes.forEach(cb => {
+  checkboxes.forEach((cb) => {
     selected.push(parseInt(cb.value));
   });
 
@@ -157,24 +166,22 @@ function createBatch() {
   fetch("http://localhost:3000/batches", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      collections: selected
-    })
+      collections: selected,
+    }),
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(() => {
       alert("Batch created!");
 
-      //  RELOAD COLLECTIONS 
+      //  RELOAD COLLECTIONS
       loadCollections();
     });
 }
 
-
 async function loadCollections() {
-
   const colRes = await fetch("http://localhost:3000/collections");
   const collections = await colRes.json();
 
@@ -183,14 +190,14 @@ async function loadCollections() {
 
   const farmerMap = {};
 
-  farmers.forEach(f => {
+  farmers.forEach((f) => {
     farmerMap[f.id] = f.name;
   });
 
   const container = document.getElementById("collections");
   container.innerHTML = "";
 
-  collections.forEach(col => {
+  collections.forEach((col) => {
     const row = document.createElement("tr");
 
     const farmerName = farmerMap[col.farmerId] || "Unknown";
@@ -217,7 +224,7 @@ function addBatch() {
   window.location.href = "addBatch.html";
 }
 
-// used to set collectionID and load farmers details into the create collection form 
+// used to set collectionID and load farmers details into the create collection form
 function addCollection() {
   loadFarmers();
   setCollectionID();
@@ -226,13 +233,13 @@ function addCollection() {
 // load and displays the farmer name and location based on id
 function loadFarmers() {
   fetch("http://localhost:3000/farmers")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       const dropdown = document.getElementById("farmerId");
 
       dropdown.innerHTML = `<option value="">Select Farmer</option>`;
 
-      data.forEach(farmer => {
+      data.forEach((farmer) => {
         const option = document.createElement("option");
         option.value = farmer.id;
         option.textContent = `${farmer.name} (ID: ${farmer.id})`;
@@ -261,7 +268,7 @@ function setCollectionID() {
       let nextID = 1;
 
       if (data.length > 0) {
-        const maxId = Math.max(...data.map(c => c.collectionID));
+        const maxId = Math.max(...data.map((c) => c.collectionID));
         nextID = maxId + 1;
       }
 
@@ -289,15 +296,15 @@ function submitCollection(e) {
   fetch("http://localhost:3000/collections", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       farmerId: parseInt(farmerId),
       quantity: parseFloat(quantity),
-      date: date
-    })
+      date: date,
+    }),
   })
-    .then(res => res.json())
+    .then((res) => res.json())
     .then(() => {
       alert("Collection added!");
 
@@ -307,5 +314,39 @@ function submitCollection(e) {
       document.getElementById("date").value = "";
       document.getElementById("farmerName").value = "";
       document.getElementById("farmerId").value = "";
+    });
+}
+
+// Check if we're in a new month → reset expenses
+useEffect(() => {
+  const currentMonth = getCurrentMonth();
+
+  // If current month is different from last reset month
+  if (lastResetMonth !== currentMonth) {
+    console.log(`New month detected: ${currentMonth}. Resetting expenses...`);
+
+    // Clear all expenses
+    setExpenses([]);
+
+    // Update the last reset month
+    setLastResetMonth(currentMonth);
+
+    // Save new month to localStorage
+    localStorage.setItem("budgetMonth", currentMonth);
+  }
+}, [lastResetMonth]); // Runs when lastResetMonth changes
+
+function deleteBatch(id) {
+  const confirmDelete = confirm("Are you sure you want to delete this batch?");
+
+  if (!confirmDelete) return;
+
+  fetch(`http://localhost:3000/batches/${id}`, {
+    method: "DELETE"
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("Batch deleted!");
+      loadBatchesPage(); // refresh table
     });
 }
