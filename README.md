@@ -75,3 +75,52 @@ A simple full-stack web application to manage milk collections, batch creation, 
 ## Architecture
 
 Frontend → Express API → JSON Files
+
+## References
+- https://developer.mozilla.org/
+- https://nodejs.org/en/docs
+- https://expressjs.com/
+- https://www.json.org/
+
+
+  ## References
+
+### Core Technologies
+- [Node.js Documentation](https://nodejs.org/en/docs)
+- [JavaScript (MDN Web Docs)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Express.js Documentation](https://expressjs.com/)
+- [CSS (MDN Web Docs)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+
+---
+
+### YouTube
+- Traversy Media – Node.js Crash Course  
+  https://www.youtube.com/watch?v=fBNz5xF-Kx4
+
+- Programming with Mosh – JavaScript Full Course  
+  https://www.youtube.com/watch?v=W6NZfCO5SIk
+
+- Tech Jeshwanth – Express.js Guide  
+  [https://www.youtube.com/watch?v=L72fhGm1tfE](https://youtu.be/RpCliBS_xA4?si=gIA1IN4ziUM9xH7U)
+
+---
+
+### Udemy Courses
+- NodeJS – The Complete Guide (MVC, REST APIs, GraphQL, Deno)  
+  https://www.udemy.com/course/nodejs-the-complete-guide/
+
+- The Complete JavaScript Course 2024: From Zero to Expert  
+  https://www.udemy.com/course/the-complete-javascript-course/
+
+- Electron From Scratch: Build Desktop Apps With JavaScript  
+  https://www.udemy.com/course/electron-from-scratch/
+
+- CSS - The Complete Guide (Flexbox, Grid, Sass)  
+  https://www.udemy.com/course/css-the-complete-guide-incl-flexbox-grid-sass/
+
+---
+
+### 📦 Additional Resources
+- [npm (Node Package Manager)](https://www.npmjs.com/)
+- [Stack Overflow](https://stackoverflow.com/)
+- [GitHub Docs](https://docs.github.com/)
