@@ -120,7 +120,12 @@ Frontend → Express API → JSON Files
 
 ---
 
-### 📦 Additional Resources
+### Additional Resources
 - [npm (Node Package Manager)](https://www.npmjs.com/)
 - [Stack Overflow](https://stackoverflow.com/)
 - [GitHub Docs](https://docs.github.com/)
+
+---
+
+### AI chat link
+- https://app.blackbox.ai/share/fdbe2efd-27fc-43c7-ac72-11e1c75df8fd
